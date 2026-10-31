@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cabina y Control Online</title>
+
+    <!-- ======================================================= -->
+    <!-- ETIQUETAS PWA                                           -->
+    <!-- ======================================================= -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="logo.png">
+    
+    <!-- ======================================================= -->
+    <!-- ETIQUETAS PARA EMBEDS (WhatsApp, Discord, Facebook, X)  -->
+    <!-- ======================================================= -->
+    <meta name="description" content="Tu compañía, estés donde estés. Escucha Cabina y Control Radio en vivo.">
+    <meta name="theme-color" content="#dc2626">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://cabinaycontrol.online/">
+    <meta property="og:title" content="Cabina y Control Radio en Vivo">
+    <meta property="og:description" content="Tu compañía, estés donde estés. Escucha nuestra señal en vivo y contáctanos por WhatsApp.">
+    <meta property="og:image" content="https://cabinaycontrol.online/meta.jpeg"> 
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://cabinaycontrol.online/">
+    <meta name="twitter:title" content="Cabina y Control Radio en Vivo">
+    <meta name="twitter:description" content="Tu compañía, estés donde estés. Escucha nuestra señal en vivo.">
+    <meta name="twitter:image" content="https://cabinaycontrol.online/meta.jpeg">
+    <!-- ======================================================= -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="shortcut icon" href="logo.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen flex flex-col justify-between selection:bg-red-500/20 selection:text-red-900 relative overflow-x-hidden">
+
+    <header class="w-full max-w-6xl mx-auto px-6 py-6 flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center">
+                <svg class="w-5 h-5 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                    <line x1="12" x2="12" y1="19" y2="22"/>
+                </svg>
+            </div>
+            <span class="font-display font-semibold text-sm tracking-wider uppercase text-black">
+                Cabina y Control
+            </span>
+        </div>
+
+        <div class="flex items-center space-x-2 px-4 py-2 rounded-full bg-white border border-slate-200">
+            <span class="w-2 h-2 rounded-full bg-red-500"></span>
+            <span class="font-mono text-xs uppercase tracking-widest text-slate-600 font-medium">Standby</span>
+        </div>
+    </header>
+
+    <main class="w-full max-w-3xl mx-auto px-5 py-6 flex-1 flex flex-col justify-center items-center">
+        <div class="w-full bg-white rounded-3xl p-8 md:p-12 border border-slate-200 shadow-xl flex flex-col items-center text-center">
+            
+            <h1 class="font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-black mb-3">
+                Cabina y Control Radio
+            </h1>
+            <h4 class="font-display font-bold tracking-tight text-black mb-3">
+                Tu compañía, estés donde estés.
+            </h4>
+            <h4 class="font-display font-bold tracking-tight text-black mb-3">
+        📲 WhatsApp: 04247340058. ¡Cuéntanos desde dónde nos escuchas!
+            </h4>
+
+            <img src="logo.png" alt="Cabina y Control Logo" class="w-64 sm:w-72 md:w-80 h-auto object-contain mx-auto mb-10 block bg-transparent">
+
+            <div class="w-full max-w-md bg-slate-50 border border-slate-200 rounded-2xl p-4 mb-6 flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <button id="playPauseBtn" class="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center hover:bg-red-600 transition-colors">
+                        <svg id="playIcon" class="w-5 h-5 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        <svg id="pauseIcon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                    </button>
+                    <div class="flex flex-col text-left">
+                        <span class="text-black font-semibold text-sm">Señal en Vivo</span>
+                        <div class="flex items-center gap-2 mt-1">
+                            <span id="liveIndicatorDot" class="w-2 h-2 rounded-full bg-slate-300"></span>
+                            <span id="liveIndicatorText" class="text-xs text-slate-500 font-mono tracking-widest">OFF AIR</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-2">
+                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
+                    <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.6" class="w-24 accent-red-600 cursor-pointer">
+                </div>
+            </div>
+
+            <div class="w-full max-w-md h-20 bg-slate-50 border border-slate-200 rounded-xl overflow-hidden p-2">
+                <canvas id="frequencyCanvas" class="w-full h-full"></canvas>
+            </div>
+        </div>
+    </main>
+
+    <footer class="w-full max-w-6xl mx-auto px-6 py-6 text-center border-t border-slate-200 mt-8">
+        <p class="text-sm text-slate-500">© <span id="currentYear"></span> Cabina y Control Online. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- Banner Flotante de Instalación -->
+    <div id="installBanner" class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 p-4 shadow-[0_-10px_40px_rgba(0,0,0,0.1)] flex items-center justify-between transform translate-y-full transition-transform duration-500 z-50">
+        <div class="flex items-center gap-3">
+            <img src="logo.png" alt="Icono" class="w-10 h-10 rounded-lg object-contain bg-slate-100">
+            <div>
+                <p class="font-display font-bold text-sm text-black">Instalar App</p>
+                <p class="text-xs text-slate-500">Escucha la radio en un solo toque</p>
+            </div>
+        </div>
+        <div class="flex gap-2">
+            <button id="closeInstallBtn" class="px-3 py-2 text-xs font-semibold text-slate-500 hover:bg-slate-100 rounded-lg transition-colors">Cerrar</button>
+            <button id="installBtn" class="px-4 py-2 text-xs font-bold text-white bg-red-600 hover:bg-red-700 rounded-lg shadow-md transition-colors">Instalar</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        const canvas = document.getElementById('frequencyCanvas');
+        const ctx = canvas.getContext('2d');
+        let animationFrameId;
+        let step = 0;
+        let visualizerMultiplier = 0.05;
+
+        const audio = new Audio('https://stream.zeno.fm/2dfzyyq3h2zuv');
+        audio.crossOrigin = "anonymous";
+        
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const playIcon = document.getElementById('playIcon');
+        const pauseIcon = document.getElementById('pauseIcon');
+        const liveIndicatorDot = document.getElementById('liveIndicatorDot');
+        const liveIndicatorText = document.getElementById('liveIndicatorText');
+        const volumeSlider = document.getElementById('volumeSlider');
+        
+        let isPlaying = false;
+        audio.volume = volumeSlider.value;
+
+        playPauseBtn.addEventListener('click', () => {
+            if (audio.paused) {
+                liveIndicatorText.textContent = "CONECTANDO...";
+                liveIndicatorDot.className = "w-2 h-2 rounded-full bg-slate-400 animate-pulse";
+                
+                audio.play().then(() => {
+                    isPlaying = true;
+                    updatePlayerUI();
+                }).catch(err => {
+                    liveIndicatorText.textContent = "ERROR";
+                    liveIndicatorDot.className = "w-2 h-2 rounded-full bg-red-600";
+                });
+            } else {
+                audio.pause();
+                isPlaying = false;
+                updatePlayerUI();
+            }
+        });
+
+        volumeSlider.addEventListener('input', (e) => {
+            audio.volume = e.target.value;
+        });
+
+        audio.addEventListener('waiting', () => {
+            if(isPlaying) {
+                liveIndicatorText.textContent = "BUFFERING...";
+                liveIndicatorDot.className = "w-2 h-2 rounded-full bg-slate-400 animate-pulse";
+            }
+        });
+
+        audio.addEventListener('playing', () => {
+            isPlaying = true;
+            updatePlayerUI();
+        });
+
+        function updatePlayerUI() {
+            if (isPlaying) {
+                playIcon.classList.add('hidden');
+                pauseIcon.classList.remove('hidden');
+                
+                liveIndicatorDot.className = "w-2 h-2 rounded-full bg-red-500 animate-pulse";
+                liveIndicatorText.className = "text-xs text-red-600 font-mono font-bold tracking-widest";
+                liveIndicatorText.textContent = "EN VIVO";
+            } else {
+                pauseIcon.classList.add('hidden');
+                playIcon.classList.remove('hidden');
+                
+                liveIndicatorDot.className = "w-2 h-2 rounded-full bg-slate-300";
+                liveIndicatorText.className = "text-xs text-slate-500 font-mono tracking-widest";
+                liveIndicatorText.textContent = "OFF AIR";
+            }
+        }
+
+        function resizeCanvas() {
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * window.devicePixelRatio;
+            canvas.height = rect.height * window.devicePixelRatio;
+            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function drawWave() {
+            const width = canvas.getBoundingClientRect().width;
+            const height = canvas.getBoundingClientRect().height;
+
+            ctx.clearRect(0, 0, width, height);
+
+            const targetMultiplier = isPlaying ? 1.0 : 0.05;
+            visualizerMultiplier += (targetMultiplier - visualizerMultiplier) * 0.1;
+
+            const barCount = 40;
+            const barWidth = 3;
+            const gap = (width - (barCount * barWidth)) / (barCount - 1);
+
+            for (let i = 0; i < barCount; i++) {
+                const norm = i / barCount;
+                const wave1 = Math.sin(norm * Math.PI * 4 + step * 0.05);
+                const wave2 = Math.cos(norm * Math.PI * 2 - step * 0.03);
+                
+                const centerCurve = Math.sin(norm * Math.PI);
+                let amplitude = Math.abs(wave1 * 0.6 + wave2 * 0.4) * centerCurve;
+                
+                amplitude = Math.max(0.04, amplitude * visualizerMultiplier);
+
+                const barHeight = amplitude * (height * 0.9);
+                const x = i * (barWidth + gap);
+                const y = (height - barHeight) / 2;
+
+                const gradient = ctx.createLinearGradient(0, y, 0, y + barHeight);
+                gradient.addColorStop(0, '#000000'); 
+                gradient.addColorStop(0.5, '#475569'); 
+                gradient.addColorStop(1, '#dc2626'); 
+
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.roundRect(x, y, barWidth, barHeight, 2);
+                ctx.fill();
+            }
+
+            step += 1.0;
+            animationFrameId = requestAnimationFrame(drawWave);
+        }
+
+        window.onload = function() {
+            resizeCanvas();
+            drawWave();
+        };
+
+        // ==========================================
+        // PWA - Registro y lógica de Instalación
+        // ==========================================
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js');
+            });
+        }
+
+        let deferredPrompt;
+        const installBanner = document.getElementById('installBanner');
+        const installBtn = document.getElementById('installBtn');
+        const closeInstallBtn = document.getElementById('closeInstallBtn');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault(); 
+            deferredPrompt = e;
+            setTimeout(() => {
+                installBanner.classList.remove('translate-y-full');
+            }, 1500); 
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt(); 
+                const { outcome } = await deferredPrompt.userChoice;
+                deferredPrompt = null;
+                installBanner.classList.add('translate-y-full'); 
+            }
+        });
+
+        closeInstallBtn.addEventListener('click', () => {
+            installBanner.classList.add('translate-y-full');
+        });
+    </script>
+</body>
+</html>

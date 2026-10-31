@@ -1,0 +1,22 @@
+{
+  "name": "Cabina y Control Radio",
+  "short_name": "Cabina y Control",
+  "description": "Tu compañía, estés donde estés. Escucha nuestra señal en vivo.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f1f5f9",
+  "theme_color": "#dc2626",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
